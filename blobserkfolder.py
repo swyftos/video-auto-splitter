@@ -17,7 +17,7 @@ def human_to_bytes(s):
 
 def ffprobe_json(p):
     r=run(["ffprobe","-v","error","-print_format","json","-show_format","-show_streams",p])
-    if r.returncode!=0: raise RuntimeError("ffprobe"); return {}
+    if r.returncode!=0: raise RuntimeError("ffprobe")
     return json.loads(r.stdout.decode("utf-8","ignore"))
 
 def duration(p):
@@ -35,7 +35,7 @@ def split_copy(infile, limit_bytes, outdir, prefix):
         r=run(["ffmpeg","-y","-ss",f"{off}","-i",str(infile),"-c","copy","-fs",f"{limit_bytes}",str(out)])
         if r.returncode!=0: break
         cd=duration(str(out))
-        if cd<=0.2: 
+        if cd<=0.2:
             try: out.unlink()
             except: pass
             break
@@ -74,7 +74,7 @@ def main():
         outdir=outroot/rel.parent
         prefix=f.stem
         first_part=outdir/f"{prefix}_part01{f.suffix}"
-        if args.skip-existing and first_part.exists():
+        if args.skip_existing and first_part.exists():
             print(f"Skip (exists): {f}")
             continue
         print(f"Processing: {f}")
